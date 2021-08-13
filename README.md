@@ -45,6 +45,9 @@ if namespace.create(core_v1, name=namespace_name) is False:
     print("A namespace could not be created as it already exists")
 ```
 
+Kelpie is designed to compliment the official Kubernetes Python library and
+by no means replace it, rather augment and compliment it making it easier to use.
+
 
 ## Developing
 
