@@ -11,14 +11,14 @@ def create(client, name, namespace_manifest=None):
     """
 
     if namespace_manifest is None:
-        namespace_manifest = {
-            "apiVersion": "v1",
-            "kind": "Namespace",
-            "metadata": {"name": name, "resourceversion": "v1"},
-        }
+    namespace_manifest = {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {"name": name, "resourceversion": "v1"},
+    }
 
     try:
-        client.create_namespace(body=namespace_manifest)
+        response = client.create_namespace(body=namespace_manifest)
     except ApiException as e:
         # If the namespace already exists, return False.
         if e.reason == "Conflict":
@@ -26,7 +26,7 @@ def create(client, name, namespace_manifest=None):
 
         raise e
 
-    return True
+    return response
 
 
 def get(client, name):
