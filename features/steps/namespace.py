@@ -4,27 +4,59 @@ from kelpie import namespace
 from kubernetes import config, client
 
 
-@when(u"the create function is invoked")
+@given(u"a namespace called rain does not exist")
 def step_impl(context):
-    raise NotImplementedError(u"STEP: When the create function is invoked")
+    namespace.delete(context.k8s_v1_core_client, "rain")
 
 
-@then(u"a new namespace is created")
+@when(u"the user attempts to retrieve the namespace rain")
 def step_impl(context):
-    raise NotImplementedError(u"STEP: Then a new namespace is created")
+    try:
+        context.response = namespace.get(context.k8s_v1_core_client, "rain")
+        assert True
+    except Exception as e:
+        raise e
 
 
-@when(u"a user tries to retrieve a namespace that doesn't exist None is returned.")
+@then(u"None is returned")
 def step_impl(context):
+    if context.response is not None:
+        assert False
 
-    config.load_kube_config(context="minikube")
-    core_v1 = client.CoreV1Api()
 
-    missing_namespace = namespace.get(
-        core_v1, name="2c300d4a-deb8-3dd9-af7d-90bb4b36d30b"
+@given(u"that a namespace called washington does not exist")
+def step_impl(context):
+    raise NotImplementedError(
+        u"STEP: Given that a namespace called washington does not exist"
     )
 
-    if missing_namespace:
-        assert False
-    else:
-        assert True
+
+@when(u"the user creates a namespace called washington")
+def step_impl(context):
+    raise NotImplementedError(
+        u"STEP: When the user creates a namespace called washington"
+    )
+
+
+@then(u"results containing the washington namespace are returned")
+def step_impl(context):
+    raise NotImplementedError(
+        u"STEP: Then results containing the washington namespace are returned"
+    )
+
+
+@given(u"a namespace called bread exists")
+def step_impl(context):
+    raise NotImplementedError(u"STEP: Given a namespace called bread exists")
+
+
+@when(u"the user retrieves the namespace bread")
+def step_impl(context):
+    raise NotImplementedError(u"STEP: When the user retrieves the namespace bread")
+
+
+@then(u"results for the namespace bread  are returned")
+def step_impl(context):
+    raise NotImplementedError(
+        u"STEP: Then results for the namespace bread  are returned"
+    )

@@ -1,16 +1,16 @@
 Feature: Interact with the Namespace API
 
+  Scenario: Try retrieve a namespace that does not exist
+    Given a namespace called rain does not exist
+      When the user attempts to retrieve the namespace rain
+        Then None is returned
+
   Scenario: Create a namespace and check it exists
     Given that a namespace called washington does not exist
       When the user creates a namespace called washington
-        Then the washington namespace is returned
+        Then results containing the washington namespace are returned
 
   Scenario: Retrieve a namespace that exists
     Given a namespace called bread exists
-      When the user retrieves the namespace
-        Then the namespace is returned
-
-  Scenario: Retrieves a missing namespace
-    Given a namespace called rain does not exist
-      When the user attempts to retreive the namespace
-        Then None is returned
+      When the user retrieves the namespace bread
+        Then results for the namespace bread  are returned
