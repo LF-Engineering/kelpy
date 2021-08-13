@@ -1,7 +1,7 @@
 from kubernetes.client.exceptions import ApiException
 
 
-def create(api, name):
+def create(client, name, namespace_manifest=None):
     """Create a namespace if it doesn't exist, if it does, return False.
 
     :core_v1_api: The core V1 API object.
@@ -10,14 +10,15 @@ def create(api, name):
 
     """
 
-    namespace_manifest = {
-        "apiVersion": "v1",
-        "kind": "Namespace",
-        "metadata": {"name": name, "resourceversion": "v1"},
-    }
+    if namespace_manifest is None:
+        namespace_manifest = {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {"name": name, "resourceversion": "v1"},
+        }
 
     try:
-        api.create_namespace(body=namespace_manifest)
+        client.create_namespace(body=namespace_manifest)
     except ApiException as e:
         # If the namespace already exists, return False.
         if e.reason == "Conflict":
