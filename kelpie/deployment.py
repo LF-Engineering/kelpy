@@ -6,14 +6,14 @@ def create(client, spec, namespace="default"):
     body = yaml.safe_load(spec)
 
     try:
-        client.create_namespaced_deployment(namespace, body)
+        response = client.create_namespaced_deployment(namespace, body)
     except ApiException as e:
         # If the object already exists, return False.
         if e.reason == "Conflict":
             return False
         raise e
 
-    return True
+    return response
 
 
 def get(client, name, namespace="default"):
@@ -29,11 +29,11 @@ def get(client, name, namespace="default"):
 
 def pod_selector(client, name, namespace="default"):
 
-    resp = get(client, name, namespace)
+    response = get(client, name, namespace)
 
-    if resp:
-        if resp.status.available_replicas > 0:
-            labels = resp.spec.selector.match_labels
+    if response:
+        if response.status.available_replicas > 0:
+            labels = response.spec.selector.match_labels
             label_selector = ",".join(
                 "%s=%s" % (key, val) for (key, val) in labels.items()
             )

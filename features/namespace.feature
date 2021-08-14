@@ -6,8 +6,8 @@ Feature: Interact with the Namespace API
         Then None is returned
 
   Scenario: Create a namespace and check it exists
-    Given that a namespace called washington does not exist
-      When the user creates a namespace called washington
+    Given a namespace called washington does not exist
+      When a namespace called washington is created
         Then results containing the washington namespace are returned
 
   Scenario: Retrieve a namespace that exists

@@ -4,45 +4,31 @@ from kelpie import namespace
 from kubernetes import config, client
 
 
-@given(u"a namespace called rain does not exist")
-def step_impl(context):
-    namespace.delete(context.k8s_v1_core_client, "rain")
+@given(u"a namespace called {namespace_name} does not exist")
+def step_impl(context, namespace_name):
+    namespace.delete(context.k8s_v1_core_client, namespace_name)
 
 
 @when(u"the user attempts to retrieve the namespace rain")
 def step_impl(context):
-    try:
-        context.response = namespace.get(context.k8s_v1_core_client, "rain")
-        assert True
-    except Exception as e:
-        raise e
+    context.get_rain_resp = namespace.get(context.k8s_v1_core_client, "rain")
 
 
 @then(u"None is returned")
 def step_impl(context):
-    if context.response is not None:
-        assert False
+    assert context.get_rain_resp is None, "Did not return None"
 
 
-@given(u"that a namespace called washington does not exist")
+@when(u"a namespace called washington is created")
 def step_impl(context):
-    raise NotImplementedError(
-        u"STEP: Given that a namespace called washington does not exist"
-    )
-
-
-@when(u"the user creates a namespace called washington")
-def step_impl(context):
-    raise NotImplementedError(
-        u"STEP: When the user creates a namespace called washington"
+    context.create_washington_resp = namespace.create(
+        context.k8s_v1_core_client, "washington"
     )
 
 
 @then(u"results containing the washington namespace are returned")
 def step_impl(context):
-    raise NotImplementedError(
-        u"STEP: Then results containing the washington namespace are returned"
-    )
+    assert context.create_washington_resp.status.phase == "Active"
 
 
 @given(u"a namespace called bread exists")

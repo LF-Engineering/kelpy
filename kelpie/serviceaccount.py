@@ -6,14 +6,14 @@ def create(client, spec, namespace="default"):
     body = yaml.safe_load(spec)
 
     try:
-        client.create_namespaced_service_account(namespace, body)
+        response = client.create_namespaced_service_account(namespace, body)
     except ApiException as e:
         # If the object already exists, return False.
         if e.reason == "Conflict":
             return False
         raise e
 
-    return True
+    return response
 
 
 def get(client, name, namespace="default"):
@@ -25,4 +25,3 @@ def get(client, name, namespace="default"):
         raise e
 
     return response
-
