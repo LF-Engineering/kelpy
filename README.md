@@ -1,12 +1,12 @@
-# Kelpie
+# Kelpy
 
 A light-weight helper library to simplify common Kubernetes operations and help keep code [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 
 While the official Kubernetes library provides users with everything required to work with the Kuerenetes APIs, it
 does so in a very basic way and is not designed to replicate the convenience of `kubectl`. For example, creating
-a namespace that exists would usuall raise a "Conflict" exception, whereas Kelpie will just return `False`.
+a namespace that exists would usuall raise a "Conflict" exception, whereas Kelpy will just return `False`.
 
-Without Kelpie:
+Without Kelpy:
 
 ```python
 
@@ -31,10 +31,10 @@ except ApiException as e:
 
 ```
 
-With Kelpie:
+With Kelpy:
 
 ```python
-from kelpie import namespace
+from kelpy import namespace
 from kubernetes import config, client
 
 config.load_kube_config()
@@ -45,7 +45,7 @@ if namespace.create(core_v1, name=namespace_name) is False:
     print("A namespace could not be created as it already exists")
 ```
 
-Kelpie is designed to compliment the official Kubernetes Python library and by no means replace it, ideally, just making it easier to use.
+Kelpy is designed to compliment the official Kubernetes Python library and by no means replace it, ideally, just making it easier to use.
 
 
 ## Developing

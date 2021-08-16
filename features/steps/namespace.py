@@ -1,6 +1,6 @@
 from behave import *
 
-from kelpie import namespace
+from kelpy import namespace
 from kubernetes import config, client
 
 
