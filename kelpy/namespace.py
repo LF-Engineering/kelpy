@@ -1,4 +1,7 @@
 from kubernetes.client.exceptions import ApiException
+from kubernetes import client, config, watch
+import time
+from urllib3.exceptions import ReadTimeoutError
 
 
 def create(client, name, namespace_spec=None):
@@ -39,12 +42,17 @@ def get(client, name):
     return None
 
 
-def delete(client, name):
+def delete(client, name, wait_for_timeout=300):
     try:
         response = client.delete_namespace(name)
     except ApiException as e:
         if e.reason == "Not Found":
             return False
         raise e
+
+    w = watch.Watch()
+    for event in w.stream(client.list_namespace, timeout_seconds=wait_for_timeout):
+        if event["type"] == "DELETED" and event["object"].metadata.name == name:
+            pass
 
     return response
