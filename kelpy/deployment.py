@@ -1,8 +1,9 @@
 import yaml
+import time
 from kubernetes.client.exceptions import ApiException
+from kubernetes import client, config, watch
 
-
-def create(client, spec, namespace="default"):
+def create(client, spec, namespace="default", timeout=100):
     body = yaml.safe_load(spec)
 
     try:
@@ -13,7 +14,11 @@ def create(client, spec, namespace="default"):
             return False
         raise e
 
-    return response
+    w = watch.Watch()
+    for event in w.stream(client.list_deployment_for_all_namespaces, timeout_seconds=timeout):
+        if  event['type'] == "ADDED" and event['object'].metadata.name == response.metadata.name \
+                and event['object'].status.replicas == event['object'].status.available_replicas:
+            return response
 
 
 def get(client, name, namespace="default"):
@@ -40,3 +45,18 @@ def pod_selector(client, name, namespace="default"):
             return label_selector
 
     return None
+
+
+def delete(client, name, namespace="default", wait_for_timeout=300):
+    try:
+        response = client.delete_namespaced_deployment(name, namespace)
+    except ApiException as e:
+        if e.reason == "Not Found":
+            return False
+        raise e
+
+    w = watch.Watch()
+    for event in w.stream(client.list_deployment_for_all_namespaces, timeout_seconds=wait_for_timeout):
+        if event['type'] == "DELETED" and event['object'].metadata.name == name \
+                and event['object'].metadata.namespace == namespace:
+            return response
