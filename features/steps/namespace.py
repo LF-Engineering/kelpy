@@ -45,5 +45,5 @@ def step_impl(context):
 
 @then(u"results for the namespace bread  are returned")
 def step_impl(context):
-    assert context.get_bread_resp is None, "Did not return None"
+    assert context.get_bread_resp, "Should've returned a valid response"
 
