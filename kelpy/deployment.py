@@ -24,8 +24,9 @@ def create(client, spec, namespace="default", timeout=100):
             and event["object"].status.replicas
             == event["object"].status.available_replicas
         ):
+            break
 
-            return response
+    return response
 
 
 def get(client, name, namespace="default"):
@@ -71,4 +72,5 @@ def delete(client, name, namespace="default", wait_for_timeout=300):
             and event["object"].metadata.name == name
             and event["object"].metadata.namespace == namespace
         ):
-            return response
+            break
+    return response
