@@ -1,7 +1,7 @@
 import yaml
-import time
 from kubernetes.client.exceptions import ApiException
-from kubernetes import client, config, watch
+from kubernetes import watch
+
 
 def create(client, spec, namespace="default", timeout=100):
     body = yaml.safe_load(spec)
@@ -15,9 +15,16 @@ def create(client, spec, namespace="default", timeout=100):
         raise e
 
     w = watch.Watch()
-    for event in w.stream(client.list_deployment_for_all_namespaces, timeout_seconds=timeout):
-        if  event['type'] == "ADDED" and event['object'].metadata.name == response.metadata.name \
-                and event['object'].status.replicas == event['object'].status.available_replicas:
+    for event in w.stream(
+        client.list_deployment_for_all_namespaces, timeout_seconds=timeout
+    ):
+        if (
+            event["type"] == "ADDED"
+            and event["object"].metadata.name == response.metadata.name
+            and event["object"].status.replicas
+            == event["object"].status.available_replicas
+        ):
+
             return response
 
 
@@ -56,7 +63,12 @@ def delete(client, name, namespace="default", wait_for_timeout=300):
         raise e
 
     w = watch.Watch()
-    for event in w.stream(client.list_deployment_for_all_namespaces, timeout_seconds=wait_for_timeout):
-        if event['type'] == "DELETED" and event['object'].metadata.name == name \
-                and event['object'].metadata.namespace == namespace:
+    for event in w.stream(
+        client.list_deployment_for_all_namespaces, timeout_seconds=wait_for_timeout
+    ):
+        if (
+            event["type"] == "DELETED"
+            and event["object"].metadata.name == name
+            and event["object"].metadata.namespace == namespace
+        ):
             return response

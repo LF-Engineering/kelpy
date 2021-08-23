@@ -33,9 +33,7 @@ def step_impl(context):
 
 @given(u"a namespace called bread exists")
 def step_impl(context):
-    context.create_bread_resp = namespace.create(
-            context.k8s_v1_core_client, "bread"
-            )
+    context.create_bread_resp = namespace.create(context.k8s_v1_core_client, "bread")
 
 
 @when(u"the user retrieves the namespace bread")
@@ -46,4 +44,3 @@ def step_impl(context):
 @then(u"results for the namespace bread  are returned")
 def step_impl(context):
     assert context.get_bread_resp, "Should've returned a valid response"
-
