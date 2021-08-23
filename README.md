@@ -1,5 +1,7 @@
 # Kelpy
 
+![quality-control](https://github.com/LF-Engineering/kelpy/actions/workflows/qc.yml/badge.svg)
+
 A light-weight helper library to simplify common Kubernetes operations and help keep code [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 
 While the official Kubernetes library provides users with everything required to work with the Kuerenetes APIs, it
