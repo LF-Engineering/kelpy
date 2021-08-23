@@ -1,7 +1,5 @@
 from kubernetes.client.exceptions import ApiException
-from kubernetes import client, config, watch
-import time
-from urllib3.exceptions import ReadTimeoutError
+from kubernetes import watch
 
 
 def create(client, name, namespace_spec=None):

@@ -7,3 +7,9 @@ setup:
 
 functional-tests:
 	behave
+
+pre-commit-install:
+	pre-commit install
+
+pre-commit-run-all: pre-commit-install
+	pre-commit run --all-files
