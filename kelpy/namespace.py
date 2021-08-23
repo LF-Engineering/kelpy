@@ -40,7 +40,7 @@ def get(client, name):
     return None
 
 
-def delete(client, name, wait_for_timeout=300):
+def delete(client, name, wait_for_timeout=180):
     try:
         response = client.delete_namespace(name)
     except ApiException as e:
