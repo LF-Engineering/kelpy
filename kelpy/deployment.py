@@ -55,7 +55,7 @@ def pod_selector(client, name, namespace="default"):
     return None
 
 
-def delete(client, name, namespace="default", wait_for_timeout=300):
+def delete(client, name, namespace="default", wait_for_timeout=180):
     try:
         response = client.delete_namespaced_deployment(name, namespace)
     except ApiException as e:
