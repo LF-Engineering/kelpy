@@ -67,7 +67,7 @@ disable=print-statement,
         backtick,
         invalid-name,
         long-suffix,
-        duplicate-code
+        duplicate-code,
         old-ne-operator,
         old-octal-literal,
         import-star-module-level,
