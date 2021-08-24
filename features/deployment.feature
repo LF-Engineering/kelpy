@@ -4,7 +4,7 @@ Feature: Manage deployments
     Given A deployment called fog does not exist
       When The user attempts to retrieve the deployment fog
         Then returns None
-	
+
 
   Scenario: Create a deployment and wait for it to become ready
     Given A deployment called whilrwind does not exist
