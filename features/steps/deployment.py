@@ -14,9 +14,11 @@ def step_impl(context, deployment_name):
 def step_impl(context, deployment_name):
     context.get_resp = deployment.get(context.k8s_v1_apps_client, deployment_name)
 
+
 @then(u"returns None")
 def step_impl(context):
     assert context.get_resp is None, "Did not return None"
+
 
 @when(u"The deployment called {deployment_name} is created")
 def step_impl(context, deployment_name):
@@ -37,6 +39,7 @@ def step_impl(context):
         == context.create_resp.status.available_replicas
     )
 
+
 @given(u"The deployment called {deployment_name} exists")
 def step_impl(context, deployment_name):
     env = Environment(
@@ -52,5 +55,3 @@ def step_impl(context, deployment_name):
 @then(u"Results for the deployment fire are returned")
 def step_impl(context):
     assert context.get_resp, "Should've returned a valid response"
-
-
