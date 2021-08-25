@@ -3,7 +3,7 @@ Feature: Manage deployments
   Scenario: Try retrieve a deployment that does not exist
     Given A deployment called fog does not exist
       When The user attempts to retrieve the deployment fog
-        Then returns None
+        Then None is returned for the deployment
 
 
   Scenario: Create a deployment and wait for it to become ready
