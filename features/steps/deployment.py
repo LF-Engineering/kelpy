@@ -15,7 +15,7 @@ def step_impl(context, deployment_name):
     context.get_resp = deployment.get(context.k8s_v1_apps_client, deployment_name)
 
 
-@then(u"returns None")
+@then(u"None is returned for the deployment")
 def step_impl(context):
     assert context.get_resp is None, "Did not return None"
 
