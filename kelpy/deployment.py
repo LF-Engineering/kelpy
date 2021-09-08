@@ -21,6 +21,7 @@ def create(client, spec, namespace="default", timeout=100):
         if (
             event["type"] == "ADDED"
             and event["object"].metadata.name == response.metadata.name
+            and event["object"].status.available_replicas
             and event["object"].status.replicas
             == event["object"].status.available_replicas
         ):
@@ -39,6 +40,26 @@ def get(client, name, namespace="default"):
 
     return response
 
+def update(client, name, body, namespace="default", timeout=100):
+    try:
+        response = client.patch_namespaced_deployment(name, namespace, body)
+    except ApiException as e:
+        if e.reason == "Conflict":
+            return False
+        raise e
+
+    w = watch.Watch()
+    for event in w.stream(
+        client.list_deployment_for_all_namespaces, timeout_seconds=timeout
+    ):
+        if (
+            event["type"] == "ADDED"
+            and event["object"].metadata.name == response.metadata.name
+            and event["object"].status.observed_generation == 2
+        ):
+            break
+
+    return response
 
 def pod_selector(client, name, namespace="default"):
 
