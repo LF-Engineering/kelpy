@@ -40,6 +40,7 @@ def get(client, name, namespace="default"):
 
     return response
 
+
 def update(client, name, body, namespace="default", timeout=100):
     try:
         response = client.patch_namespaced_deployment(name, namespace, body)
@@ -60,6 +61,7 @@ def update(client, name, body, namespace="default", timeout=100):
             break
 
     return response
+
 
 def pod_selector(client, name, namespace="default"):
 
