@@ -14,7 +14,7 @@ def step_impl(context):
     context.get_rain_resp = namespace.get(context.k8s_v1_core_client, "rain")
 
 
-@then(u"None is returned for the namespace")
+@then(u"None is returned instead of the namespace")
 def step_impl(context):
     assert context.get_rain_resp is None, "Did not return None"
 
