@@ -56,7 +56,9 @@ def update(client, name, body, namespace="default", timeout=100):
         if (
             event["type"] == "ADDED"
             and event["object"].metadata.name == response.metadata.name
-            and event["object"].status.observed_generation == 2
+            and event["object"].status.available_replicas
+            and event["object"].status.replicas
+            == event["object"].status.available_replicas
         ):
             break
 
