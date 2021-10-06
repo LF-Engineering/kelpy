@@ -70,7 +70,10 @@ def pod_selector(client, name, namespace="default"):
     response = get(client, name, namespace)
 
     if response:
-        if response.status.available_replicas > 0:
+        if (
+            response.status.available_replicas is not None
+            and response.status.available_replicas > 0
+        ):
             labels = response.spec.selector.match_labels
             label_selector = ",".join(
                 "%s=%s" % (key, val) for (key, val) in labels.items()
