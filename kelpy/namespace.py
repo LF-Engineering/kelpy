@@ -51,6 +51,6 @@ def delete(client, name, wait_for_timeout=180):
     w = watch.Watch()
     for event in w.stream(client.list_namespace, timeout_seconds=wait_for_timeout):
         if event["type"] == "DELETED" and event["object"].metadata.name == name:
-            pass
+            break
 
     return response
