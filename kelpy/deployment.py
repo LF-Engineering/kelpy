@@ -19,7 +19,7 @@ def create(client, spec, namespace="default", timeout=100):
         client.list_deployment_for_all_namespaces, timeout_seconds=timeout
     ):
         if (
-            event["type"] == "ADDED"
+            (event["type"] == "ADDED" or event["type"] == "MODIFIED")
             and event["object"].metadata.name == response.metadata.name
             and event["object"].status.available_replicas
             and event["object"].status.replicas
