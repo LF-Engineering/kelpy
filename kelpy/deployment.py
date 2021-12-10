@@ -91,14 +91,15 @@ def delete(client, name, namespace="default", wait_for_timeout=180):
             return False
         raise e
 
-    w = watch.Watch()
-    for event in w.stream(
-        client.list_deployment_for_all_namespaces, timeout_seconds=wait_for_timeout
-    ):
-        if (
-            event["type"] == "DELETED"
-            and event["object"].metadata.name == name
-            and event["object"].metadata.namespace == namespace
+    if get(client, name, namespace) is not None:
+        w = watch.Watch()
+        for event in w.stream(
+            client.list_deployment_for_all_namespaces, timeout_seconds=wait_for_timeout
         ):
-            break
+            if (
+                event["type"] == "DELETED"
+                and event["object"].metadata.name == name
+                and event["object"].metadata.namespace == namespace
+            ):
+                break
     return response
