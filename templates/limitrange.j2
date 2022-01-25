@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+ name: {{ limitrange_name }}
+ namespace: {{ limitrange_namespace }}
+spec:
+ limits:
+   - default:
+       memory: 32Mi
+     defaultRequest:
+       memory: 16Mi
+     max:
+       memory: 640Mi
+     type: Container
